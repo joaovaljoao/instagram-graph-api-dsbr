@@ -22,7 +22,7 @@ update_token(facebook_creds)
 inicio_download = datetime.now()
 
 response_list = []
-for username in get_username(users_filename)[:2]:
+for username in get_username(users_filename):
     response_list.append(get_feed(username, facebook_creds))
     retrieve_media_url(response_list[-1], images_folder)
     retrieve_user_profile_url(response_list[-1], images_folder)
