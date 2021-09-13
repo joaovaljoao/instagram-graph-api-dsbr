@@ -1,5 +1,15 @@
 from facebook_creds import facebook_creds, long_lived_token
 import requests
+import logging
+from requests.adapters import HTTPAdapter
+from requests.packages.urllib3.util.retry import Retry
+
+logging.basicConfig(level=logging.DEBUG)
+
+s = requests.Session()
+retries = Retry(total=5, backoff_factor=1, status_forcelist=[ 502, 503, 504 ])
+s.mount('http://', HTTPAdapter(max_retries=retries))
+
 
 def get_feed(nome_usuario, creds_params):
     
