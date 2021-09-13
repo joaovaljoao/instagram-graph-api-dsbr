@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 from facebook_creds import  facebook_creds, update_token
 from instagram_feed import get_feed
 from get_username import get_username
@@ -11,7 +12,7 @@ from pathlib import Path
 json_filename = 'universities_feed.json'
 users_filename = 'usuarios.csv'
 csv_folder = Path('pub')
-images_folder = Path('pub/images')
+images_folder = Path('images')
 
 checar_pasta(csv_folder)
 checar_pasta(images_folder)
