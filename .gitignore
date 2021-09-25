@@ -1,5 +1,4 @@
-universities_feed.json
-/pub/
-/__pycache__/
-/servidor/
-/images/
+src/universities_feed.json
+src/pub/
+src/__pycache__/
+src/images/

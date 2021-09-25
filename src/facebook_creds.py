@@ -1,5 +1,6 @@
 import requests
 import json
+from datetime import datetime
 
 
 def facebook_creds():
@@ -34,3 +35,11 @@ def debug_token(facebook_creds):
     response = requests.get( facebook_creds['graph_domain'] + 'debug_token', params=params).json()['data']
     
     return response
+
+def is_token_expired(facebook_creds):
+    debug = debug_token(facebook_creds)
+    expiration_date = debug['data_access_expires_at']
+    if datetime.utcfromtimestamp(expiration_date) <= datetime.now():
+        return True
+    return False
+
