@@ -40,6 +40,3 @@ json_file = read_json(json_filename)
 user_csv_output(json_file, csv_folder)
 
 media_csv_output(json_file, csv_folder)
-
-print('----- fim -----')
-#teste
