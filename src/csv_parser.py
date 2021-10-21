@@ -1,3 +1,4 @@
+from numpy import dtype
 import pandas as pd
 import json
 
@@ -45,4 +46,4 @@ def media_csv_output(json_file, csv_folder):
     
     df = pd.DataFrame(lista_postagens)
     
-    return write_csv(df, f'{csv_folder}/instagram_media_data.csv', sep = ';', encoding = 'utf-8')
+    return write_csv(df, f'{csv_folder}/instagram_media_data.csv', sep = ';', encoding = 'utf-8', dtype = object)
