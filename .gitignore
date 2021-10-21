@@ -3,6 +3,7 @@ pub/
 src/__pycache__/
 images/
 *.swp
+ids.csv
 venv/
 src/abepro_feed.json
 src/usuarios_feed.json

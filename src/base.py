@@ -32,7 +32,7 @@ def instagram_metadata_download(metadata):
     token_status()
     folder_checker(metadata)
     response_list = []
-    for username in get_username(metadata['users_filename'])[0]:
+    for username in get_username(metadata['users_filename'])[:1]:
         response_list.append(get_feed(username))
         retrieve_media_url(response_list[-1], metadata['images_folder'])
         retrieve_user_profile_url(response_list[-1], metadata['images_folder'])

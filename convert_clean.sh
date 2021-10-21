@@ -1,7 +1,7 @@
 #!/bin/bash
 
-sed '/;[0-9]\+$/!d' pub/instagram_media_data.csv | sed 's/.\+;\([0-9]\+\)$/\1/' > ids.csv
-awk -F ";" '{print $5}' pub/instagram_user_data.csv | sed '/^[[:space:]]*$/d' | tail -n +2 >> ids.csv
+cat pub/*media_data.csv | sed '/;[0-9]\+$/!d' | sed 's/.\+;\([0-9]\+\)$/\1/' > ids.csv
+cat pub/*_user_data.csv | awk -F ";" '{print $5}' | sed '/^[[:space:]]*$/d' | sed '/^id$/d' >> ids.csv
 
 for i in images/*.jpg
 do
