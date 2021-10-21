@@ -1,37 +1,39 @@
-from facebook_creds import  facebook_creds, update_token, is_token_expired
+from facebook_creds import  Facebook as fb
 from instagram_feed import get_feed
 from get_username import get_username
 from csv_parser import user_csv_output, read_json, media_csv_output
 from image_storage import retrieve_media_url, retrieve_user_profile_url
-from check_folder_exists import checar_pasta
+from support import SuppportFunctions
 from pathlib import Path
 import json
+import sys
 
 
 def metadata():
     dic = {}
-    dic['json_filename'] = 'universities_feed.json'
-    dic['users_filename'] = 'usuarios.csv'
+    csv_file = sys.argv[1]
+    json_file = csv_file.split('.')[0] + '_feed.json'
+    dic['json_filename'] = json_file
+    dic['users_filename'] = csv_file
     dic['csv_folder'] = Path('pub')
     dic['images_folder'] = Path('images')
     return dic
 
 def folder_checker(metadata):
-    checar_pasta(metadata['csv_folder'])
-    checar_pasta(metadata['images_folder'])
+    SuppportFunctions.create_folder_exists(metadata['csv_folder'])
+    SuppportFunctions.create_folder_exists(metadata['images_folder'])
 
-def token_status(creds):
-    if is_token_expired(creds) == False:
-        print('Token aceito')
-        return update_token(creds)
-    return 'O input_token informado está expirado. Você precisa adicionar um input_token válido no arquivo creds_params.json'
+def token_status():
+    if fb().is_token_expiring() == False:
+        return print('Token aceito')
+    return print('O input_token informado está expirando e, portanto, foi atualizado')
 
-def instagram_metadata_download(metadata, creds):
-    token_status(creds)
+def instagram_metadata_download(metadata):
+    token_status()
     folder_checker(metadata)
     response_list = []
-    for username in get_username(metadata['users_filename']):
-        response_list.append(get_feed(username, creds))
+    for username in get_username(metadata['users_filename'])[:1]:
+        response_list.append(get_feed(username))
         retrieve_media_url(response_list[-1], metadata['images_folder'])
         retrieve_user_profile_url(response_list[-1], metadata['images_folder'])
 
