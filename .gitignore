@@ -2,3 +2,6 @@ src/universities_feed.json
 src/pub/
 src/__pycache__/
 src/images/
+venv/
+src/abepro_feed.json
+src/usuarios_feed.json
