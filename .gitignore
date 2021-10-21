@@ -1,7 +1,8 @@
 src/universities_feed.json
-src/pub/
+pub/
 src/__pycache__/
-src/images/
+images/
+*.swp
 venv/
 src/abepro_feed.json
 src/usuarios_feed.json

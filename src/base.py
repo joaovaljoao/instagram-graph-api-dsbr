@@ -15,8 +15,8 @@ def metadata():
     json_file = csv_file.split('.')[0] + '_feed.json'
     dic['json_filename'] = json_file
     dic['users_filename'] = csv_file
-    dic['csv_folder'] = Path('pub')
-    dic['images_folder'] = Path('images')
+    dic['csv_folder'] = Path('../pub')
+    dic['images_folder'] = Path('../images')
     return dic
 
 def folder_checker(metadata):
@@ -32,7 +32,7 @@ def instagram_metadata_download(metadata):
     token_status()
     folder_checker(metadata)
     response_list = []
-    for username in get_username(metadata['users_filename'])[:1]:
+    for username in get_username(metadata['users_filename'])[0]:
         response_list.append(get_feed(username))
         retrieve_media_url(response_list[-1], metadata['images_folder'])
         retrieve_user_profile_url(response_list[-1], metadata['images_folder'])

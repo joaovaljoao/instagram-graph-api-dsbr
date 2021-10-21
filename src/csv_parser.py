@@ -1,7 +1,7 @@
 from numpy import dtype
 import pandas as pd
 import json
-
+import sys
 
 def read_csv(arquivo, sep):
     df = pd.read_csv(
@@ -19,7 +19,8 @@ def write_csv(dataframe, nome_saida, sep, encoding):
             index = False,
             encoding = encoding,
             sep = sep,
-            escapechar = '"'
+            escapechar = '"',
+            float_format = '${:g}'
             )
         )
     return df_saida
@@ -35,7 +36,7 @@ def user_csv_output(json_file, csv_folder):
     
     df = pd.DataFrame(json_data).drop('media', 1)
     
-    return write_csv(df, f'{csv_folder}/instagram_user_data.csv', sep = ';', encoding = 'utf-8')
+    return write_csv(df, f'{csv_folder}/'+sys.argv[1].split('.')[0]+'_user_data.csv', sep = ';', encoding = 'utf-8')
 
 def media_csv_output(json_file, csv_folder):
     
@@ -46,4 +47,4 @@ def media_csv_output(json_file, csv_folder):
     
     df = pd.DataFrame(lista_postagens)
     
-    return write_csv(df, f'{csv_folder}/instagram_media_data.csv', sep = ';', encoding = 'utf-8', dtype = object)
+    return write_csv(df, f'{csv_folder}/'+sys.argv[1].split('.')[0]+'_media_data.csv', sep = ';', encoding = 'utf-8')
