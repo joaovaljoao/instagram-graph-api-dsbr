@@ -1,45 +1,42 @@
 import requests
 import json
-from datetime import datetime
+from datetime import datetime, timedelta
+from support import SuppportFunctions
 
+class Facebook:
 
-def facebook_creds():
-    return json.load(open('creds_params.json'))
-
-def long_lived_token(facebook_creds):
+    def __init__(self) -> None:
     
-    params = (
-        ('grant_type', facebook_creds['grant_type']),
-        ('client_secret', facebook_creds['client_secret']),
-        ('client_id', facebook_creds['client_id']),
-        ('fb_exchange_token', facebook_creds['input_token']),
-    )
+        self.app_params = json.load(open('creds_params.json'))
 
-    response = requests.get(facebook_creds['endpoint'] + 'oauth/access_token', params=params)
-    
-    return response.json()
+    def long_lived_token(self):
+        
+        params = (
+            ('grant_type', self.app_params['grant_type']),
+            ('client_secret', self.app_params['client_secret']),
+            ('client_id', self.app_params['client_id']),
+            ('fb_exchange_token', self.app_params['input_token']),
+        )
 
-def update_token(facebook_creds):
-    facebook_creds['input_token'] = long_lived_token(facebook_creds)['access_token']
-    with open('creds_params.json', 'w') as f:
-        f.write(json.dumps(facebook_creds, indent=5))
+        response = requests.get(self.app_params['endpoint'] + 'oauth/access_token', params = params)
+        
+        return response.json()
 
+    def debug_token(self):
+        
+        params = (
+        (' input_token', self.app_params['input_token']),
+        (' access_token', self.app_params['access_token']),
+        )
 
-def debug_token(facebook_creds):
-    
-    params = (
-    (' input_token', facebook_creds['input_token']),
-    (' access_token', facebook_creds['access_token']),
-    )
+        response = requests.get(self.app_params['graph_domain'] + 'debug_token', params=params).json()['data']
 
-    response = requests.get( facebook_creds['graph_domain'] + 'debug_token', params=params).json()['data']
-    
-    return response
+        return response
 
-def is_token_expired(facebook_creds):
-    debug = debug_token(facebook_creds)
-    expiration_date = debug['data_access_expires_at']
-    if datetime.utcfromtimestamp(expiration_date) <= datetime.now():
-        return True
-    return False
-
+    def is_token_expiring(self):
+        expiration_date = self.app_params['expires_at']
+        if (datetime.now() + timedelta(days=7)) >= datetime.fromisoformat(expiration_date):
+            self.app_params['input_token'] = self.long_lived_token()['access_token']
+            self.app_params['expires_at'] = SuppportFunctions.epoch_to_dt(self.long_lived_token()['expires_in'])
+            return True
+        return False
