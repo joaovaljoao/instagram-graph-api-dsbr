@@ -4,8 +4,11 @@ cd /home/marcel/instagram-graph-api-dsbr/src
 ./main.py abepro.csv
 cd ..
 #cp -f usuarios.csv pub
+cp -f src/ifes.csv pub/usuarios.csv
+cp -f pub/ifes_media_data.csv pub/instagram_media_data.csv
+cp -f pub/ifes_user_data.csv pub/instagram_user_data.csv
 ./convert_clean.sh
-rm ids.csv
+rm -f ids.csv
 #AWS configuration
 #rclone sync --checksum pub 360:instagram-360
 #for i in pub/*.csv
@@ -14,5 +17,5 @@ rm ids.csv
 #done
 
 #Google Cloud Configuration
-#rclone sync pub instagram:power-bi-static-assets-mec-dsbr/instagram
+rclone sync pub instagram:power-bi-static-assets-mec-dsbr/instagram
 
