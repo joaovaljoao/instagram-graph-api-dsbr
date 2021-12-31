@@ -20,7 +20,7 @@ def write_csv(dataframe, nome_saida, sep, encoding):
             encoding = encoding,
             sep = sep,
             escapechar = '"',
-            float_format = '${:g}'
+            float_format = '%d'
             )
         )
     return df_saida
