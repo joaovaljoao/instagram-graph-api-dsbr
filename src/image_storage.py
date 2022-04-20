@@ -1,7 +1,7 @@
 from csv_parser import read_json     
 from  urllib.request import urlretrieve
 from pathlib import Path
-import json
+
 
 def retrieve_media_url(dic, images_folder):
     for i in range(len(dic['business_discovery']['media']['data'])):
