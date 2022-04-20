@@ -1,12 +1,10 @@
-from facebook_creds import  Facebook as fb
-from instagram_feed import get_feed
-from get_username import get_username
-from csv_parser import user_csv_output, read_json, media_csv_output
+from instagram_feed import InstagramFeed
+from csv_parser import user_csv_output, read_json, media_csv_output, get_username
 from image_storage import retrieve_media_url, retrieve_user_profile_url
-from support import SuppportFunctions
 from pathlib import Path
 import json
 import sys
+import errno
 
 
 def metadata():
@@ -19,21 +17,19 @@ def metadata():
     dic['images_folder'] = Path('../images')
     return dic
 
-def folder_checker(metadata):
-    SuppportFunctions.create_folder_exists(metadata['csv_folder'])
-    SuppportFunctions.create_folder_exists(metadata['images_folder'])
-
-def token_status():
-    if fb().is_token_expiring() == False:
-        return print('Token aceito')
-    return print('O input_token informado está expirando e, portanto, foi atualizado')
+def touch(folder):
+    try:
+        Path(folder).mkdir(parents=True, exist_ok=True)
+    except OSError as e:
+        if e.errno != errno.EEXIST:
+            raise
 
 def instagram_metadata_download(metadata):
-    token_status()
-    folder_checker(metadata)
+    touch(metadata['csv_folder'])
+    touch(metadata['images_folder'])
     response_list = []
     for username in get_username(metadata['users_filename']):
-        response_list.append(get_feed(username))
+        response_list.append(InstagramFeed(username).user_feed)
         retrieve_media_url(response_list[-1], metadata['images_folder'])
         retrieve_user_profile_url(response_list[-1], metadata['images_folder'])
 
