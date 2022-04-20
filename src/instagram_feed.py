@@ -4,7 +4,6 @@ import requests
 class InstagramGraphApi:
 
     def __init__(self) -> None:
-
         self.access_token = fb().long_lived_token()['access_token']
         self.user_id = fb().app_params['facebook_id']
         self.endpoint = fb().app_params['endpoint']
@@ -12,7 +11,23 @@ class InstagramGraphApi:
         self.media_fields = 'caption,comments_count,id,like_count,media_type,media_url,permalink,timestamp,children{' + self.children + '}'
 
     def business_discovery(self, username:str, pages=10) -> dict:
+        """O método business_discovery() recebe um nome de usuário do Instagram e retorna
+            um dicionário com informações sobre o perfil e suas postagens. Os dados são
+            paginados e retornados em uma lista de dicionários.
 
+        Args:
+            username (str): nome de usuário do perfil do Instagram no qual se deseja obter informações.
+            pages (int, optional): Número de páginas que serão retornadas. Cada página retorna 25 itens. Defaults to 10.
+
+        Returns:
+            dict: O método retorna um dicionário com as seguintes chaves:
+            - id: ID do perfil
+            - username: nome de usuário do perfil
+            - biography: biografia do perfil
+            - media_count: número de posts do perfil
+            - follower_count: número de seguidores do perfil
+            - following_count: número de seguindo do perfil
+        """
         user_params = \
             'username,website,name,ig_id,id,profile_picture_url,biography,follows_count,followers_count,media_count,media'
 
@@ -29,7 +44,14 @@ class InstagramGraphApi:
         return data
 
     def get_hashtag_id(self, hashtag:str) -> str:
+        """ Esse método recebe um nome de hashtag e retorna o ID dela.
 
+        Args:
+            hashtag (str): nome de hashtag do Instagram.
+
+        Returns:
+            str: ID da hashtag.
+        """
         params = {
             'user_id': self.user_id,
             'q': hashtag,
@@ -86,10 +108,10 @@ class Pagination(InstagramGraphApi):
 
 
     def next(self) -> dict:
-        next = self.data['paging']['next'] if 'next' in self.data['paging'] else None
         data = self.data['data']
         page = 1
         while page <= self.pages:
+            next = self.data['paging']['next'] if 'next' in self.data['paging'] else None
             response = requests.get(next).json()
             next = response['paging']['next'] if 'paging' in response else None
             data.extend(response['data'])
