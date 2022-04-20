@@ -1,4 +1,3 @@
-from numpy import dtype
 import pandas as pd
 import json
 import sys
@@ -48,3 +47,8 @@ def media_csv_output(json_file, csv_folder):
     df = pd.DataFrame(lista_postagens)
     
     return write_csv(df, f'{csv_folder}/'+sys.argv[1].split('.')[0]+'_media_data.csv', sep = ';', encoding = 'utf-8')
+
+def get_username(nome_arquivo, coluna):
+    user_df = read_csv(nome_arquivo, sep = ';')
+    usernames_list = list(user_df[coluna])
+    return usernames_list
