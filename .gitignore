@@ -5,3 +5,5 @@ images/
 *.swp
 ids.csv
 venv/
+env/
+env/*
