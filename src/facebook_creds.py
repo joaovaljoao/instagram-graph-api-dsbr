@@ -1,18 +1,22 @@
 import requests
 import json
 from datetime import datetime, timedelta
+from decouple import config
 
 class Facebook:
 
     def __init__(self) -> None:
     
         self.app_params = json.load(open('input/creds_params.json'))
-        self.user_id = self.app_params['facebook_id']
+        
+        self.client_secret = config('client_secret')
+        self.input_token = config('INPUT_TOKEN')
+        self.client_id = config('client_id')
+        self.facebook_id = config('facebook_id')
+        self.access_token = f'{self.client_id}|{self.client_secret}'
+
         self.endpoint = self.app_params['endpoint']
         self.grant_type = self.app_params['grant_type']
-        self.client_secret = self.app_params['client_secret']
-        self.client_id = self.app_params['client_id']
-        self.input_token = self.app_params['input_token']
         self.graph_domain = self.app_params['graph_domain']
 
     def long_lived_token(self) -> dict:

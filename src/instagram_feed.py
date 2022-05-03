@@ -1,12 +1,13 @@
-from facebook_creds import Facebook as fb
+from facebook_creds import Facebook
 import requests
 
 class InstagramGraphApi:
 
     def __init__(self) -> None:
-        self.access_token = fb().long_lived_token()['access_token']
-        self.user_id = fb().app_params['facebook_id']
-        self.endpoint = fb().app_params['endpoint']
+        self.access_token = Facebook().long_lived_token()['access_token']
+        fb = Facebook()
+        self.facebook_id = fb.facebook_id
+        self.endpoint = fb.endpoint
         self.children = 'media_url,media_type'
         self.media_fields = 'caption,comments_count,id,like_count,media_type,media_url,permalink,timestamp,children{' + self.children + '}'
 
@@ -27,6 +28,7 @@ class InstagramGraphApi:
             - media_count: número de posts do perfil
             - follower_count: número de seguidores do perfil
             - following_count: número de seguindo do perfil
+
         """
         user_params = \
             'username,website,name,ig_id,id,profile_picture_url,biography,follows_count,followers_count,media_count,media'
@@ -35,11 +37,11 @@ class InstagramGraphApi:
                 + '){' + user_params + '{' + self.media_fields + '}}'),
                 ('access_token', self.access_token))
 
-        response = requests.get(self.endpoint + self.user_id, params=params)
+        response = requests.get(self.endpoint + self.facebook_id, params=params)
 
         #paginate business_discovery
         data = response.json()
-        data = Pagination(data, pages).after(username, user_params)
+        # data = Pagination(data, pages).after(username, user_params)
         
         return data
 
@@ -53,7 +55,7 @@ class InstagramGraphApi:
             str: ID da hashtag.
         """
         params = {
-            'user_id': self.user_id,
+            'user_id': self.facebook_id,
             'q': hashtag,
             'access_token': self.access_token,
         }
@@ -67,7 +69,7 @@ class InstagramGraphApi:
         params = {
             'fields': self.media_fields,
             'access_token': self.access_token,
-            'user_id': self.user_id,
+            'user_id': self.facebook_id,
         }
 
         response = requests.get(self.endpoint + hashtag_id + '/top_media', params=params)
@@ -84,13 +86,13 @@ class InstagramGraphApi:
         params = {
             'fields': self.media_fields,
             'access_token': self.access_token,
-            'user_id': self.user_id,
+            'user_id': self.facebook_id,
         }
 
         response = requests.get(self.endpoint + hashtag_id + '/recent_media', params=params)
 
         data = response.json()
-        data = Pagination(data, pages).next()
+        # data = Pagination(data, pages).next()
         return data
     
     def filter_caption(self, search_term:str, content:dict) -> dict:
@@ -105,7 +107,6 @@ class Pagination(InstagramGraphApi):
         InstagramGraphApi.__init__(self)
         self.data = data
         self.pages = pages
-
 
     def next(self) -> dict:
         data = self.data['data']
@@ -126,7 +127,7 @@ class Pagination(InstagramGraphApi):
             params = (('fields', 'business_discovery.username(' + username
                     + '){' + user_params + f'.after({after})' + '{' + self.media_fields + '}}'),
                     ('access_token', self.access_token))
-            response = requests.get(self.endpoint + self.user_id, params=params).json()
+            response = requests.get(self.endpoint + self.facebook_id, params=params).json()
             data = self.data['business_discovery']['media']['data'].extend(response['business_discovery']['media']['data'])
 
             page += 1

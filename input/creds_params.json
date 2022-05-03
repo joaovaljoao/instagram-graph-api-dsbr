@@ -2,7 +2,6 @@
     "graph_domain": "https://graph.facebook.com/",
     "graph_version": "v11.0",
     "endpoint": "https://graph.facebook.com/v11.0/",
-    "access_token": "2626769527631540|e17403b632ac05e8fbd06c877c25969e",
     "grant_type": "fb_exchange_token",
     "expires_at": "2021-12-17 18:10:09.385609"
 }

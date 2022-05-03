@@ -7,3 +7,5 @@ ids.csv
 venv/
 env/
 env/*
+
+data.db

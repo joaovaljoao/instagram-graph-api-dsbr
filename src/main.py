@@ -3,13 +3,12 @@ from instagram_feed import InstagramGraphApi
 import json
 
 # download instagram data
-username = 'cnpq_oficial', 'fapergs', 'finepinova', 'capes_oficial', 'agenciafapesp', 'fapesb'
+username = 'ufoboficial' #, 'cnpq_oficial', 'fapergs', 'finepinova', 'capes_oficial', 'agenciafapesp', 'fapesb'
 
-# bd = InstagramGraphApi().business_discovery(i, pages=1)
-top_media = InstagramGraphApi().top_media('ufob', pages=1)
-filter = InstagramGraphApi().filter_caption('PROCESSO SELETIVO', top_media)
+insta = InstagramGraphApi()
+busines = insta.business_discovery(username=username,
+                         pages=1)
 
-#write json
 
 with open('top_media.json', 'w') as outfile:
-    json.dump(filter, outfile, indent=4)
+    json.dump(busines, outfile, indent=4)
