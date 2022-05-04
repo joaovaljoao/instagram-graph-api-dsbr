@@ -5,7 +5,6 @@ images/
 *.swp
 ids.csv
 venv/
-env/
-env/*
+.env
 
 data.db
