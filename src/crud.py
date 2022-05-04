@@ -1,4 +1,26 @@
 import sqlite3
+from dataclasses import dataclass
+
+@dataclass
+class media:
+	media_id: int
+	caption: str
+	comments_count: int
+	id_post: int
+	like_count: int
+	media_type: str
+	permalink: str
+	timestamp: str
+	user_id: int
+
+@dataclass
+class user:
+	user_id: int
+	name: str
+	biography: str
+	follows_count: int
+	followers_count: int
+	media_count: int
 
 def cria_dimUsers():
     conn = sqlite3.connect('data.db')
@@ -38,16 +60,10 @@ def adiciona_user(users: list) -> None:
     '''
     Adiciona uma lista de usuários, sendo cada usuário uma lista
     users = [user1, user2, ..., usern]
-    Cada user (lista), contém os seguintes elementos (colunas da tabela dimUser):
+    Cada user contem um objeto da dataclass user
     
-    user1[0] ->  user_id: int
-    user1[1] ->  name: str
-    user1[2] ->  biography: str
-    user1[3] ->  follows_count: int
-    user1[4] ->  followers_count: int
-    user1[5] ->  media_count: int
-
-    >>> adiciona_user([[45, "Gustavo9", "ooo", 422, 325, 1], [41, "Gustavo6", "kkk", 42, 35, 99]])
+    >>> adiciona_user([user(45, "Gustavo9", "ooo", 422, 325, 1), 
+                       user(41, "Gustavo6", "kkk", 42, 35, 99)])
     None
     '''
     conn = sqlite3.connect('data.db')
@@ -55,35 +71,33 @@ def adiciona_user(users: list) -> None:
         cursor = conn.cursor()
         cursor.execute('''
             SELECT EXISTS(SELECT 1 FROM dimUsers WHERE user_id=?)
-        ''', (user[0],))
+        ''', (user.user_id,))
         exists = cursor.fetchone()[0]
         if exists:
             cursor.execute('''
             UPDATE dimUsers SET
             name=?, biography=?, follows_count=?, followers_count=?, media_count=?
             WHERE user_id = ?
-            ''', (user[1], user[2], user[3], user[4], user[5], user[0]))
+            ''', (user.name, user.biography, user.follows_count, 
+                  user.followers_count, user.media_count, user.user_id))
         else:
             cursor.execute('''
             INSERT INTO dimUsers 
             (user_id, name, biography, follows_count, followers_count, media_count)
             VALUES (?, ?, ?, ?, ?, ?)
-            ''', (user[0], user[1], user[2], user[3], user[4], user[5]))
+            ''', (user.user_id, user.name, user.biography, user.follows_count, 
+                  user.followers_count, user.media_count))
     conn.commit()
     conn.close()
 
 def adiciona_media(medias):
     '''
-    Adiciona uma lista de medias, sendo cada media uma lista
+    Adiciona uma lista de medias
     medias = [media1, media2, ..., median] 
+    Cada media contem um objeto da dataclass media
 
-    Cada media (lista) contém os seguintes elementos (colunas da tabela dimUser):
-    
-    media1[0] ->  user_id: int
-    media1[1] ->  name: str
-    ... todas as colunas da tabela
 
-    >>> adiciona_media([1, "fsdfs", 15, 4, 5, "paper", "ffsdds", "fsdfsd", 1])
+    >>> adiciona_media([media(1, "fsdfs", 15, 4, 5, "paper", "ffsdds", "fsdfsd", 1)])
     None
     '''
     conn = sqlite3.connect('data.db')
@@ -91,7 +105,7 @@ def adiciona_media(medias):
         cursor = conn.cursor()
         cursor.execute('''
             SELECT EXISTS(SELECT 1 FROM medias WHERE media_id=?)
-        ''', (media[0],))
+        ''', (media.media_id,))
         exists = cursor.fetchone()[0]
         if exists:
             cursor.execute('''
@@ -99,12 +113,16 @@ def adiciona_media(medias):
             caption=?, comments_count=?, id_post=?, like_count=?,
             media_type=?, permalink=?, timestamp=?, user_id=?
             WHERE media_id = ?
-            ''', (media[1], media[2], media[3], media[4], media[5], media[6], media[7], media[8], media[0]))
+            ''', (media.caption, media.comments_count, media.id_post, 
+                  media.like_count, media.media_type, media.permalink, 
+                  media.timestamp, media.user_id, media.media_id))
         else:
             cursor.execute('''
             INSERT INTO medias 
             (media_id, caption, comments_count, id_post, like_count, media_type, permalink, timestamp, user_id)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-            ''', (media[0], media[1], media[2], media[3], media[4], media[5], media[6], media[7], media[8]))
+            ''', (media.media_id, media.caption, media.comments_count, 
+                  media.id_post, media.like_count, media.media_type, 
+                  media.permalink, media.timestamp, media.user_id))
     conn.commit()
     conn.close()
