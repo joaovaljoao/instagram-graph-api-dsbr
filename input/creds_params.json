@@ -4,4 +4,7 @@
     "endpoint": "https://graph.facebook.com/v11.0/",
     "grant_type": "fb_exchange_token",
     "expires_at": "2021-12-17 18:10:09.385609"
+    "codigo_pagina_atual": "",
+    "codigo_proxima_pagina": "",
+    "qt_media": ""
 }
