@@ -4,8 +4,8 @@ import requests
 class InstagramGraphApi:
 
     def __init__(self) -> None:
-        self.access_token = Facebook().long_lived_token()['access_token']
         fb = Facebook()
+        self.access_token = fb.long_lived_token()['access_token']
         self.facebook_id = fb.facebook_id
         self.endpoint = fb.endpoint
         self.children = 'media_url,media_type'
@@ -41,9 +41,9 @@ class InstagramGraphApi:
 
         #paginate business_discovery
         data = response.json()
-        # data = Pagination(data, pages).after(username, user_params)
+        paging = Pagination(data, pages).after(username, user_params)
         
-        return data
+        return paging
 
     def get_hashtag_id(self, hashtag:str) -> str:
         """ Esse método recebe um nome de hashtag e retorna o ID dela.
@@ -121,15 +121,21 @@ class Pagination(InstagramGraphApi):
             return data
     
     def after(self, username:str, user_params:str) -> dict:
+
         page = 1
         while page <= self.pages:
+
             after = self.data['business_discovery']['media']['paging']['cursors']['after']
+
             params = (('fields', 'business_discovery.username(' + username
                     + '){' + user_params + f'.after({after})' + '{' + self.media_fields + '}}'),
                     ('access_token', self.access_token))
             response = requests.get(self.endpoint + self.facebook_id, params=params).json()
-            data = self.data['business_discovery']['media']['data'].extend(response['business_discovery']['media']['data'])
+
+            current_content = self.data['business_discovery']['media']['data']
+            new_content = response['business_discovery']['media']['data']
+            current_content.extend(new_content)
 
             page += 1
         else:
-            return data
+            return current_content
