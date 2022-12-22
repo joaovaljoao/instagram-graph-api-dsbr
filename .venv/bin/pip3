@@ -1,4 +1,4 @@
-#!/home/joao/github/instagram-graph-api-dsbr/.venv/bin/python3
+#!/home/joao/github/instagram-graph-api-dsbr/.venv/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys
