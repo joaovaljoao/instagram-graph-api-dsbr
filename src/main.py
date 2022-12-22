@@ -8,10 +8,10 @@ user_data = UserData('usernames/ifes.csv')
 usernames = user_data.get_usernames()
 
 # Specify the fields to retrieve
-FIELDS = "{username,website,name,ig_id,id,profile_picture_url,biography,\
-        follows_count,followers_count,media_count,media{media_url,comments_count,\
-        like_count,caption,media_type,permalink,timestamp,username}}"
-    
+FIELDS = "{username,website,name,ig_id,id,profile_picture_url,\
+        biography, follows_count,followers_count,media_count,\
+        media{media_url,comments_count, like_count,caption,media_type,permalink,timestamp,username}}"
+
 # Create the BusinessData instance
 business_data = BusinessData()
 
