@@ -4,6 +4,10 @@ import pickle
 import time
 import requests
 import pandas as pd
+import dotenv
+
+# Load the environment variables
+dotenv.load_dotenv()
 
 class BusinessData:
     def __init__(self):
