@@ -1,0 +1,5 @@
+images/
+ifes_media.csv
+ifes_user.csv
+logging/
+.env/

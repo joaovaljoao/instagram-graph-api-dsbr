@@ -28,3 +28,4 @@ for username in usernames[:2]: # Limitado a 2 para não sobrecarregar a API, Mud
 
 
 print('fim')
+
