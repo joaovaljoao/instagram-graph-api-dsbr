@@ -1,7 +1,0 @@
-{
-    "graph_domain": "https://graph.facebook.com/",
-    "graph_version": "v11.0",
-    "endpoint": "https://graph.facebook.com/v11.0/",
-    "grant_type": "fb_exchange_token",
-    "expires_at": "2021-12-17 18:10:09.385609"
-}
