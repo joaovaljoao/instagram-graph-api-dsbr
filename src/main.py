@@ -1,26 +1,31 @@
-#!/usr/bin/python3
-from instagram_feed import InstagramGraphApi
-from s3_buckets import AWS_S3_Buckets
-from image_storage import retrieve_media_url
-import boto3
-from crud import *
-import pandas as pd
+from business_data import BusinessData
+from user_data import UserData
+from image_downloader import InstagramImageDownloader
 
-if __name__ == "__main__":
-    cria_dimUsers()
-    cria_medias()
-    
-    # download instagram data
-    username = pd.read_csv('input/ifes.csv', sep=';', encoding='utf-8')['username'].to_list()
-    #'cnpq_oficial' #, 'cnpq_oficial', 'fapergs', 'finepinova', 'capes_oficial', 'agenciafapesp', 'fapesb'
+# Create the UserData instance
+user_data = UserData('usernames/ifes.csv')
+usernames = user_data.get_usernames()
 
-    insta = InstagramGraphApi()
-    business = insta.business_discovery(username=username[0], pages=2)
+# Specify the fields to retrieve
+FIELDS = "{username,website,name,ig_id,id,profile_picture_url,biography,\
+        follows_count,followers_count,media_count,media{media_url,comments_count,\
+        like_count,caption,media_type,permalink,timestamp,username}}"
 
-    retrieve_media_url(business, 'images')
+# Create the BusinessData instance
+business_data = BusinessData()
+
+# Create an InstagramImageDownloader instance
+downloader = InstagramImageDownloader()
+
+# Iterate over the list of usernames
+for username in usernames[:2]: # Limitado a 2 para não sobrecarregar a API, Mudar na produção
+    # Call the get_business_data method
+    response = business_data.get_business_data(username, FIELDS)
+    # Save the data to CSV files
+    business_data.save_to_csv(response, username)
+    downloader.download_images(response)
 
 
-    # s3 = boto3.client('s3')
-    # s3 = AWS_S3_Buckets('us-east-1')
 
-    # s3.upload_folder('instagram-dsbr', 'images')
+print('fim')
+

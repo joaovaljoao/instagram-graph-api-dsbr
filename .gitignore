@@ -1,10 +1,5 @@
-pub/
-src/*_feed.json
-src/__pycache__/
 images/
-*.swp
-ids.csv
-venv/
-.env
-
-data.db
+ifes_media.csv
+ifes_user.csv
+logging/
+.env/
