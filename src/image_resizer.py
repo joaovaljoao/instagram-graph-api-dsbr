@@ -38,7 +38,12 @@ class ImageResizer:
         if id in self.user_data:
             # id found, resize and save the image
             with Image.open(image_path) as im:
-                im = im.resize((im.width // 3, im.height // 3))
+                if im.width // 3 > 1920 or im.height // 3 > 1080:
+                    im = im.resize((1920, 1080))
+                elif im.width // 3 < 640 or im.height // 3 < 480:
+                    im = im.resize((640, 480))
+                else:
+                    im = im.resize((im.width // 3, im.height // 3))
                 im.save(image_path)
 
             # log the image resize
