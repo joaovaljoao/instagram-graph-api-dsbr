@@ -28,5 +28,3 @@ for username in usernames[:2]: # Limitado a 2 para não sobrecarregar a API, Mud
     downloader.download_images(response)
     resizer = ImageResizer('ifes_media.csv')
     resizer.process_directory('images')
-    # save the ImageResizer object to a pickle file
-    resizer.save('resizer.pkl')
