@@ -2,6 +2,7 @@ images/*
 ifes_media.csv
 ifes_user.csv
 logging/*
+resizer.pkl
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
