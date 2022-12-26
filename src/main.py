@@ -1,10 +1,14 @@
+#!/usr/bin/python3
 from business_data import BusinessData
 from user_data import UserData
 from image_downloader import InstagramImageDownloader
 from image_resizer import ImageResizer
+import sys
+import os
 
 # Create the UserData instance
-user_data = UserData('usernames/ifes.csv')
+user_data = UserData('usernames/'+sys.argv[1])
+filename_prefix=sys.argv[1].split('.')[0]
 usernames = user_data.get_usernames()
 
 # Specify the fields to retrieve
@@ -20,11 +24,14 @@ downloader = InstagramImageDownloader()
 
 
 # Iterate over the list of usernames
-for username in usernames[:2]: # Limitado a 2 para não sobrecarregar a API, Mudar na produção
+for username in usernames: # Limitado a 2 para não sobrecarregar a API, Mudar na produção
     # Call the get_business_data method
     response = business_data.get_business_data(username, FIELDS)
     # Save the data to CSV files
-    business_data.save_to_csv(response, username)
+    if os.path.exists('pub/'+filename_prefix+'_media_data.csv') and os.path.exists('pub/'+filename_prefix+'_user_data.csv'):
+        os.unlink('pub/'+filename_prefix+'_media_data.csv')
+        os.unlink('pub/'+filename_prefix+'_user_data.csv')
+    business_data.save_to_csv(response, filename_prefix)
     downloader.download_images(response)
-    resizer = ImageResizer('ifes_media.csv')
-    resizer.process_directory('images')
+    resizer = ImageResizer('pub/'+filename_prefix+'_media_data.csv')
+    resizer.process_directory('pub/images')

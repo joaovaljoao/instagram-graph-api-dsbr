@@ -8,7 +8,7 @@ class ImageResizer:
     def __init__(self, csv_file):
         """Initializes the ImageResizer with the user data from a CSV file."""
         self.user_data = self.extract_user_data(csv_file)
-        print(self.user_data)
+        #print(self.user_data)
 
         # configure logging
         logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(message)s')
@@ -32,7 +32,7 @@ class ImageResizer:
         """Resizes an image if its ID exists in the user data."""
         # extract the id from the filename
         id = os.path.splitext(image_path)[0].split('/')[-1]
-        print(id)
+        #print(id)
 
         # check if the id exists in the user data
         if id in self.user_data:

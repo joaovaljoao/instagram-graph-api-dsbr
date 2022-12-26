@@ -3,6 +3,8 @@ ifes_media.csv
 ifes_user.csv
 logging/*
 resizer.pkl
+*.swp
+pub/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

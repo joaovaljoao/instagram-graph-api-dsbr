@@ -44,7 +44,7 @@ class BusinessData:
         return response.json()
 
 
-    def save_to_csv(self, data: dict, filename: str) -> None:
+    def save_to_csv(self, data: dict, filename_prefix: str) -> None:
         # Extract the data for the user and the media
         user_data = {k: v for k, v in data['business_discovery'].items() if k != 'media'}
         media_data = [{**{'id': data['business_discovery']['id']}, **item} for item in data['business_discovery']['media']['data']]
@@ -54,8 +54,8 @@ class BusinessData:
         df_media = pd.DataFrame(media_data)
 
         # Save the DataFrames to CSV files
-        df_user.to_csv(f'ifes_user.csv', index=False, sep=';', encoding='utf-8-sig', mode='a', header=not os.path.exists(f'ifes_user.csv'))
-        df_media.to_csv(f'ifes_media.csv', index=False, sep=';', encoding='utf-8-sig', mode='a', header=not os.path.exists(f'ifes_media.csv'))
+        df_user.to_csv('pub/'+filename_prefix+'_user.csv', index=False, sep=';', encoding='utf-8-sig', mode='a', header=not os.path.exists('pub/'+filename_prefix+'_user.csv'))
+        df_media.to_csv('pub/'+filename_prefix+'_media.csv', index=False, sep=';', encoding='utf-8-sig', mode='a', header=not os.path.exists('pub/'+filename_prefix+'_media.csv'))
 
 # create logging folder if it doesn't exist
 if not os.path.exists('logging'):

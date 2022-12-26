@@ -8,23 +8,28 @@ class InstagramImageDownloader:
         pass
 
     def download_images(self, response):
-        # Iterate over the media items in the response
-        for item in response['business_discovery']['media']['data']:
-            # Skip media items that are not images
-            if item['media_type'] == 'VIDEO':
-                continue
-            else:
-                media_url = item['media_url']
+        try:
+            # Iterate over the media items in the response
+            for item in response['business_discovery']['media']['data']:
+                # Skip media items that are not images
+                if item['media_type'] == 'VIDEO':
+                    continue
+                else:
+                    media_url = item['media_url']
 
-            # Create an ImageDownloader instance to download the image
-            image_downloader = ImageDownloader(media_url, 'images')
-            try:
-                image_downloader.download_image(item['id'])
-            except Exception as e:
-                logging.debug(f'Error: {e}')
-                with open(f'logging/pickle/{item["id"]}_image_download.pickle', 'wb') as handle:
-                    pickle.dump(response, handle, protocol=pickle.HIGHEST_PROTOCOL)
-                continue
+                # Create an ImageDownloader instance to download the image
+                image_downloader = ImageDownloader(media_url, 'pub/images')
+                try:
+                    image_downloader.download_image(item['id'])
+                except Exception as e:
+                    logging.debug(f'Error: {e}')
+                    with open(f'logging/pickle/{item["id"]}_image_download.pickle', 'wb') as handle:
+                        pickle.dump(response, handle, protocol=pickle.HIGHEST_PROTOCOL)
+        except Exception as e:
+            logging.debug(f'Error: {e}')
+            with open(f'logging/pickle/{item["id"]}_image_download.pickle', 'wb') as handle:
+                pickle.dump(response, handle, protocol=pickle.HIGHEST_PROTOCOL)
+
 
 
 class ImageDownloader:
