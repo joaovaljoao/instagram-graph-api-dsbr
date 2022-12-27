@@ -22,15 +22,15 @@ business_data = BusinessData()
 # Create an InstagramImageDownloader instance
 downloader = InstagramImageDownloader()
 
+if os.path.exists('pub/'+filename_prefix+'_media_data.csv') and os.path.exists('pub/'+filename_prefix+'_user_data.csv'):
+    os.unlink('pub/'+filename_prefix+'_media_data.csv')
+    os.unlink('pub/'+filename_prefix+'_user_data.csv')
 
 # Iterate over the list of usernames
 for username in usernames: # Limitado a 2 para não sobrecarregar a API, Mudar na produção
     # Call the get_business_data method
     response = business_data.get_business_data(username, FIELDS)
     # Save the data to CSV files
-    if os.path.exists('pub/'+filename_prefix+'_media_data.csv') and os.path.exists('pub/'+filename_prefix+'_user_data.csv'):
-        os.unlink('pub/'+filename_prefix+'_media_data.csv')
-        os.unlink('pub/'+filename_prefix+'_user_data.csv')
     business_data.save_to_csv(response, filename_prefix)
     downloader.download_images(response)
     resizer = ImageResizer('pub/'+filename_prefix+'_media_data.csv')

@@ -54,8 +54,8 @@ class BusinessData:
         df_media = pd.DataFrame(media_data)
 
         # Save the DataFrames to CSV files
-        df_user.to_csv('pub/'+filename_prefix+'_user.csv', index=False, sep=';', encoding='utf-8-sig', mode='a', header=not os.path.exists('pub/'+filename_prefix+'_user.csv'))
-        df_media.to_csv('pub/'+filename_prefix+'_media.csv', index=False, sep=';', encoding='utf-8-sig', mode='a', header=not os.path.exists('pub/'+filename_prefix+'_media.csv'))
+        df_user.to_csv('pub/'+filename_prefix+'_user_data.csv', index=False, sep=';', encoding='utf-8-sig', mode='a', header=not os.path.exists('pub/'+filename_prefix+'_user_data.csv'))
+        df_media.to_csv('pub/'+filename_prefix+'_media_data.csv', index=False, sep=';', encoding='utf-8-sig', mode='a', header=not os.path.exists('pub/'+filename_prefix+'_media_data.csv'))
 
 # create logging folder if it doesn't exist
 if not os.path.exists('logging'):
