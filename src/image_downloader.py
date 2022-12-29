@@ -1,48 +1,37 @@
-import pickle
-import logging
-import os
 import requests
+from moviepy.editor import VideoFileClip
+import logging
+import pickle
 
-class InstagramImageDownloader:
+class InstagramMediaDownloader:
     def __init__(self):
-        pass
+        self.image_folder = 'pub/images'
+        self.video_folder = 'pub/videos'
 
-    def download_images(self, response):
-        
+    def download_media(self, media):
+        # Check if the media is an image or a video
         try:
-            # Iterate over the media items in the response
-            for item in response['business_discovery']['media']['data']:
-                # Skip media items that are not images
-                if item['media_type'] == 'VIDEO':
-                    continue
-                else:
-                    media_url = item['media_url']
+            if media['media_type'] in ['IMAGE', 'CAROUSEL_ALBUM']:
+                folder = self.image_folder
+                file_extension = 'jpg'
+            elif media['media_type'] == 'VIDEO':
+                folder = self.video_folder
+                file_extension = 'mp4'
+            else:
+                return
 
-                # Create an ImageDownloader instance to download the image
-                image_downloader = ImageDownloader(media_url, 'pub/images')
-                try:
-                    image_downloader.download_image(item['id'])
-                except Exception as e:
-                    logging.debug(f'Error: {e}')
-                    with open(f'logging/pickle/{item["id"]}_image_download.pickle', 'wb') as handle:
-                        pickle.dump(response, handle, protocol=pickle.HIGHEST_PROTOCOL)
+            # Download the media and save it to the specified folder
+            response = requests.get(media['media_url'])
+            open(f'{folder}/{media["id"]}.{file_extension}', 'wb').write(response.content)
+
+            # If the media is a video, generate a thumbnail and save it to the image folder
+            if media['media_type'] == 'VIDEO':
+                clip = VideoFileClip(f'{folder}/{media["id"]}.mp4')
+                thumbnail_path = f'{self.image_folder}/{media["id"]}.jpg'
+                clip.save_frame(thumbnail_path, t=0.5)
+
+            logging.debug(f'Downloaded {media["id"]}.{file_extension}')
+            with open(f'logging/pickle/{media["id"]}_image_download.pickle', 'wb') as handle:
+                pickle.dump(response, handle, protocol=pickle.HIGHEST_PROTOCOL)
         except Exception as e:
             logging.debug(f'Error: {e}')
-            with open(f'logging/pickle/{item["id"]}_image_download.pickle', 'wb') as handle:
-                pickle.dump(response, handle, protocol=pickle.HIGHEST_PROTOCOL)
-
-class ImageDownloader:
-    def __init__(self, image_url, folder_path):
-        self.image_url = image_url
-        self.folder_path = folder_path
-
-    def download_image(self, file_name):
-        # Check if the folder path exists, and create it if it doesn't
-        if not os.path.exists(self.folder_path):
-            os.makedirs(self.folder_path)
-
-        # Download the image and save it to the specified folder
-        response = requests.get(self.image_url)
-        open(f'{self.folder_path}/{file_name}.jpg', 'wb').write(response.content)
-
-
