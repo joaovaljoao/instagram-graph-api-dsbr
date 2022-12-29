@@ -3,7 +3,7 @@ import argparse
 import pandas as pd
 from business_data import BusinessData
 from image_downloader import InstagramMediaDownloader
-from image_resizer import ImageResizer
+import imager
 
 # Specify the fields to retrieve
 FIELDS = "{username,website,name,ig_id,id,profile_picture_url,\
@@ -51,8 +51,8 @@ def run(file_name: str) -> None:
         # Download the media
         for media in data:
             downloader.download_media(media)
-            resizer = ImageResizer('pub/'+filename_prefix+'_media_data.csv')
-            resizer.process_directory('pub/images')
+            user_data = imager.extract_user_data(f'pub/{filename_prefix}_media_data.csv')
+            imager.process_directory('pub/images', user_data)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
