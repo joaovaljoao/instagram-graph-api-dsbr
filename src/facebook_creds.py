@@ -31,15 +31,15 @@ class Facebook:
         long_lived_token = response.json()['access_token']
         expires_in = response.json()['expires_in']
 
-        # Update LONG_LIVED_TOKEN and EXPIRES_AT variables in .env file
+        # Update LONG_LIVED_TOKEN and EXPIRES_IN variables in .env file
         with open('.env', 'r') as f:
             lines = f.readlines()
         with open('.env', 'w') as f:
             for line in lines:
                 if line.startswith('LONG_LIVED_TOKEN'):
                     f.write('LONG_LIVED_TOKEN=' + long_lived_token + '\n')
-                elif line.startswith('EXPIRES_AT'):
-                    f.write('EXPIRES_AT=' + str(expires_in) + '\n')
+                elif line.startswith('EXPIRES_IN'):
+                    f.write('EXPIRES_IN=' + expires_in + '\n')
                 else:
                     f.write(line)
 

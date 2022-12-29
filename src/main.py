@@ -2,7 +2,7 @@ import sys, os
 import argparse
 import pandas as pd
 from business_data import BusinessData
-from image_downloader import InstagramMediaDownloader
+from image_downloader import download_media
 import imager
 from facebook_creds import Facebook
 
@@ -39,9 +39,6 @@ def run(file_name: str) -> None:
     # Create the BusinessData instance
     business_data = BusinessData()
 
-    # Create an InstagramImageDownloader instance
-    downloader = InstagramMediaDownloader()
-
     # TODO: Apagar apenas depois que o downlaod via API tenha sucesso. Mover para uma 
     #       pasta temporária antes.
     if os.path.exists('pub/'+filename_prefix+'_media_data.csv') and os.path.exists('pub/'+filename_prefix+'_user_data.csv'):
@@ -57,7 +54,7 @@ def run(file_name: str) -> None:
         data = response['business_discovery']['media']['data']
         # Download the media
         for media in data:
-            downloader.download_media(media)
+            download_media(media, 'pub/images', 'pub/videos')
             user_data = imager.extract_user_data(f'pub/{filename_prefix}_media_data.csv')
             imager.process_directory('pub/images', user_data)
 

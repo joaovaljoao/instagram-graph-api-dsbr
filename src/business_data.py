@@ -11,7 +11,7 @@ dotenv.load_dotenv()
 
 class BusinessData:
     def __init__(self):
-        self.input_token = os.getenv('INPUT_TOKEN')
+        self.input_token = os.getenv('LONG_LIVED_TOKEN')
         self.endpoint = os.getenv('GRAPH_DOMAIN') + os.getenv('VERSION') + "/" + os.getenv('FACEBOOK_ID')
         loggin_setup()
         create_folder()
