@@ -2,7 +2,7 @@ import sys, os
 import argparse
 import pandas as pd
 from business_data import BusinessData
-from image_downloader import InstagramImageDownloader
+from image_downloader import InstagramMediaDownloader
 from image_resizer import ImageResizer
 
 # Specify the fields to retrieve
@@ -33,7 +33,7 @@ def run(file_name: str) -> None:
     business_data = BusinessData()
 
     # Create an InstagramImageDownloader instance
-    downloader = InstagramImageDownloader()
+    downloader = InstagramMediaDownloader()
 
     # TODO: Apagar apenas depois que o downlaod via API tenha sucesso. Mover para uma 
     #       pasta temporária antes.
@@ -47,9 +47,12 @@ def run(file_name: str) -> None:
         response = business_data.get_business_data(username, FIELDS)
         # Save the data to CSV files
         business_data.save_to_csv(response, filename_prefix)
-        downloader.download_images(response)
-        resizer = ImageResizer('pub/'+filename_prefix+'_media_data.csv')
-        resizer.process_directory('pub/images')
+        data = response['business_discovery']['media']['data']
+        # Download the media
+        for media in data:
+            downloader.download_media(media)
+            resizer = ImageResizer('pub/'+filename_prefix+'_media_data.csv')
+            resizer.process_directory('pub/images')
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
