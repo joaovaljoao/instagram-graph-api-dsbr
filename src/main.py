@@ -55,8 +55,8 @@ def run(file_name: str) -> None:
         # Download the media
         for media in data:
             download_media(media, 'pub/images', 'pub/videos')
-            user_data = imager.extract_user_data(f'pub/{filename_prefix}_media_data.csv')
-            imager.process_directory('pub/images', user_data)
+    user_data = imager.extract_users_data(f'pub/{filename_prefix}_media_data.csv')
+    imager.process_directory('pub/images', user_data)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()

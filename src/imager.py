@@ -2,7 +2,7 @@ import os, csv
 import logging
 from PIL import Image
 
-def extract_user_data(cv_file_name: str) -> list:
+def extract_users_data(cv_file_name: str) -> list:
     '''
     Extrai os dados do usuário de um arquivo CSV e retorna uma lista de IDs. 
     '''
