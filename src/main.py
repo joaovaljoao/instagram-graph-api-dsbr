@@ -4,6 +4,7 @@ import pandas as pd
 from business_data import BusinessData
 from image_downloader import InstagramMediaDownloader
 import imager
+from facebook_creds import Facebook
 
 # Specify the fields to retrieve
 FIELDS = "{username,website,name,ig_id,id,profile_picture_url,\
@@ -28,6 +29,12 @@ def run(file_name: str) -> None:
     filename_prefix=file_name.split('.')[0]
     usernames = pd.read_csv('usernames/' + file_name, sep=';')['username'].tolist()
 
+    # Create a Facebook instance
+    fb = Facebook()
+
+    # Check if long-lived token is expiring
+    if fb.is_token_expiring(expiration_threshold_seconds=604800):  # 7 days in seconds
+        fb.refresh_long_lived_token()
 
     # Create the BusinessData instance
     business_data = BusinessData()
