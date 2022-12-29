@@ -8,6 +8,7 @@ class InstagramImageDownloader:
         pass
 
     def download_images(self, response):
+        
         try:
             # Iterate over the media items in the response
             for item in response['business_discovery']['media']['data']:
@@ -44,11 +45,4 @@ class ImageDownloader:
         response = requests.get(self.image_url)
         open(f'{self.folder_path}/{file_name}.jpg', 'wb').write(response.content)
 
-def create_image_folder():
-    '''create images folder if it doesn't exist'''
-    if not os.path.exists('images'):
-        os.makedirs('images')
-    if not os.path.exists('pub'):
-        os.makedirs('pub')
-    if not os.path.exists('pub/images'):
-        os.makedirs('pub/images')
+

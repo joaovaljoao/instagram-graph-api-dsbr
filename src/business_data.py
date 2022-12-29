@@ -53,6 +53,9 @@ class BusinessData:
         df_user = pd.DataFrame(user_data, index=[0])
         df_media = pd.DataFrame(media_data)
 
+        # Create the images folder if it doesn't exist
+        create_folder()
+
         # Save the DataFrames to CSV files
         df_user.to_csv('pub/'+filename_prefix+'_user_data.csv', index=False, sep=';', encoding='utf-8-sig', mode='a', header=not os.path.exists('pub/'+filename_prefix+'_user_data.csv'))
         df_media.to_csv('pub/'+filename_prefix+'_media_data.csv', index=False, sep=';', encoding='utf-8-sig', mode='a', header=not os.path.exists('pub/'+filename_prefix+'_media_data.csv'))
@@ -69,3 +72,11 @@ def loggin_setup():
     # Configure logging
     logging.basicConfig(filename='logging/app.log', filemode='w', format='%(levelname)s - %(message)s', level=logging.DEBUG)
 
+def create_folder():
+    '''create images folder if it doesn't exist'''
+    # if not os.path.exists('images'):
+    #     os.makedirs('images')
+    if not os.path.exists('pub'):
+        os.makedirs('pub')
+    if not os.path.exists('pub/images'):
+        os.makedirs('pub/images')
