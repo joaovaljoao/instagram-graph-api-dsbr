@@ -11,7 +11,7 @@ class InstagramMediaDownloader:
     def download_media(self, media):
         # Check if the media is an image or a video
         try:
-            if media['media_type'] in ['IMAGE', 'CAROUSEL_ALBUM']:
+            if media['media_type'] in ['IMAGE', 'CAROUSE L_ALBUM']:
                 folder = self.image_folder
                 file_extension = 'jpg'
             elif media['media_type'] == 'VIDEO':
