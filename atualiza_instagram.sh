@@ -1,6 +1,7 @@
 #!/bin/sh
 cd /home/marcel/instagram-graph-api-dsbr
-src/main.py ifes.csv
+source venv/bin/activate
+python src/main.py -f ifes.csv
 #./main.py abepro.csv
 #cp -f usuarios.csv pub
 cp -f usernames/ifes.csv pub/usuarios.csv

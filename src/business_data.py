@@ -57,14 +57,15 @@ class BusinessData:
         df_user.to_csv('pub/'+filename_prefix+'_user_data.csv', index=False, sep=';', encoding='utf-8-sig', mode='a', header=not os.path.exists('pub/'+filename_prefix+'_user_data.csv'))
         df_media.to_csv('pub/'+filename_prefix+'_media_data.csv', index=False, sep=';', encoding='utf-8-sig', mode='a', header=not os.path.exists('pub/'+filename_prefix+'_media_data.csv'))
 
-# create logging folder if it doesn't exist
-if not os.path.exists('logging'):
-    os.makedirs('logging')
+def loggin_setup():
+    # create logging folder if it doesn't exist
+    if not os.path.exists('logging'):
+        os.makedirs('logging')
 
-# create pickle folder if it doesn't exist in the logging directory
-if not os.path.exists('logging/pickle'):
-    os.makedirs('logging/pickle')
+    # create pickle folder if it doesn't exist in the logging directory
+    if not os.path.exists('logging/pickle'):
+        os.makedirs('logging/pickle')
 
-# Configure logging
-logging.basicConfig(filename='logging/app.log', filemode='w', format='%(levelname)s - %(message)s', level=logging.DEBUG)
+    # Configure logging
+    logging.basicConfig(filename='logging/app.log', filemode='w', format='%(levelname)s - %(message)s', level=logging.DEBUG)
 
