@@ -1,61 +1,59 @@
 import os
+from typing import List
 from PIL import Image
-import csv
 import logging
 
-def get_users_data(csv_file_name: str) -> list:
+def resize_image(image_path: str, width: int, height: int) -> None:
     """
-    Extrai os dados de media do usuário de um arquivo CSV e retorna uma lista de IDs. 
-    """
-    user_data = []
-    try:
-        with open(csv_file_name, 'r', encoding='utf-8') as f:
-            reader = csv.reader(f, delimiter=';')
-            for row in reader:
-                user_data.append(row[0])
-        
-        # Remove o primeiro elemento (o cabeçalho) e qualquer elemento vazio
-        user_data = [x for x in user_data[1:] if x]
-    except Exception as e:
-        logging.error(f'Erro ao ler arquivo CSV {csv_file_name}: {e}')
-        return None
-
-    return user_data
-
-def resize_image(image_path: str) -> None:
-    """
-    Altera o tamanho de uma imagem dado o caminho para a mesma.
-     * Imagens maiores que 1920x1080 são redimensionadas para 1920x1080.
-     * Imagens menores que 640x480 são redimensionadas para 640x480.
+    Redimensiona uma imagem dado o caminho para a mesma para as dimensões especificadas.
     A nova imagem é salva no lugar da anterior (mesmo caminho e nome).
     """
-    # Verifica se o arquivo já existe
-    if os.path.exists(image_path):
-        logging.debug(f'{image_path} já existe, redimensionamento não necessário')
-        return
     try:
         with Image.open(image_path) as im:
-            if im.width // 3 > 1920 or im.height // 3 > 1080:
-                im = im.resize((1920, 1080))
-            elif im.width // 3 < 640 or im.height // 3 < 480:
-                im = im.resize((640, 480))
-            else:
-                im = im.resize((im.width // 3, im.height // 3))
+            # Calcula a proporção de redução de tamanho necessária
+            ratio = min(width / im.width, height / im.height)
+            new_size = (int(im.width * ratio), int(im.height * ratio))
+            im = im.resize(new_size)
             im.save(image_path)
         logging.debug(f'Imagem redimensionada: {image_path}')
-    except Exception as e:
-        logging.error(f'Erro ao redimensionar imagem {image_path}: {e}')
+    except IOError:
+        logging.error(f'Erro ao abrir imagem {image_path}')
+    except ValueError:
+        logging.error(f'Erro ao redimensionar imagem {image_path}: formato de imagem inválido')
 
 
-def process_directory(directory_path: str, user_data: list) -> None:
+def process_directory(directory_path: str, user_data: List[str], width: int, height: int) -> None:
+
     """
-    Itera sobre todos os arquivos JPEG em um diretório e redimensiona as imagens
-    caso ela seja de um id da lista de mídias.
+    Itera sobre todos os arquivos JPEG em um diretório e redimensiona as imagens cujo ID está na lista de dados do usuário.
     """
+    resized_images_file = 'logging/resized_images.txt'
+    # Criar o arquivo resized_images.txt se ele não existir
+    if not os.path.exists(resized_images_file):
+        with open(resized_images_file, 'w') as f:
+            f.write('')
+    # Carrega a lista de IDs de imagens redimensionadas
+    with open(resized_images_file, 'r') as f:
+        resized_images = set(f.read().split())
+
     for filename in os.listdir(directory_path):
-        if not filename.endswith('.jpg'):
+        base, ext = os.path.splitext(filename)
+        if ext != '.jpg':
             continue
-        user_id = filename.split('.')[0]
+        user_id = base
         if user_id in user_data:
-            image_path = f'{directory_path}/{filename}'
-            resize_image(image_path)
+            # Checa se a imagem já foi redimensionada
+            if user_id in resized_images:
+                logging.debug(f'{filename} ignorado porque já foi redimensionado')
+                continue
+            # Redimensiona a imagem e adiciona o ID à lista de imagens redimensionadas
+            image_path = os.path.join(directory_path, filename)
+            resize_image(image_path, width, height)
+            resized_images.add(user_id)
+
+    # Salva a lista de imagens redimensionadas atualizada
+    with open(resized_images_file, 'w') as f:
+        f.write('\n'.join(resized_images))
+
+
+
