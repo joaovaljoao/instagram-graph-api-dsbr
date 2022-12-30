@@ -3,7 +3,7 @@ import argparse
 import pandas as pd
 from business_data import BusinessData
 from image_downloader import download_media
-import imager
+from imager import process_directory, get_users_data
 from facebook_creds import Facebook
 
 # Specify the fields to retrieve
@@ -55,8 +55,8 @@ def run(file_name: str) -> None:
         # Download the media
         for media in data:
             download_media(media, 'pub/images', 'pub/videos')
-    user_data = imager.extract_users_data(f'pub/{filename_prefix}_media_data.csv')
-    imager.process_directory('pub/images', user_data)
+        user_data = get_users_data(f'pub/{filename_prefix}_media_data.csv')
+        process_directory('pub/images', user_data)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
