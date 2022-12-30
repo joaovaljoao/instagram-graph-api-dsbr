@@ -17,7 +17,7 @@ def get_users_data(csv_file_name: str) -> list:
         # Remove o primeiro elemento (o cabeçalho) e qualquer elemento vazio
         user_data = [x for x in user_data[1:] if x]
     except Exception as e:
-        logging.error(f'Error reading CSV file {csv_file_name}: {e}')
+        logging.error(f'Erro ao ler arquivo CSV {csv_file_name}: {e}')
         return None
 
     return user_data
@@ -31,7 +31,7 @@ def resize_image(image_path: str) -> None:
     """
     # Verifica se o arquivo já existe
     if os.path.exists(image_path):
-        logging.debug(f'{image_path} já existe, resize não necessário')
+        logging.debug(f'{image_path} já existe, redimensionamento não necessário')
         return
     try:
         with Image.open(image_path) as im:
@@ -42,9 +42,9 @@ def resize_image(image_path: str) -> None:
             else:
                 im = im.resize((im.width // 3, im.height // 3))
             im.save(image_path)
-        logging.debug(f'Resized image {image_path}')
+        logging.debug(f'Imagem redimensionada: {image_path}')
     except Exception as e:
-        logging.error(f'Error resizing image {image_path}: {e}')
+        logging.error(f'Erro ao redimensionar imagem {image_path}: {e}')
 
 
 def process_directory(directory_path: str, user_data: list) -> None:
