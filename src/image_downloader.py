@@ -32,7 +32,7 @@ def download_media(media: dict) -> None:
         # Verifica se o arquivo já existe na pasta de destino
         file_path = f'{folder}/{media.get("id", "0000")}.{file_extension}'
         if os.path.exists(file_path):
-            logging.debug(f'A mídia {media.get("id", "000")}.{file_extension} já existe, download não necessário')
+            logging.debug(f'A mídia {file_path} já existe, download não necessário')
             return
 
         # Faz o download da mídia e salva na pasta de destino
