@@ -53,8 +53,17 @@ class Facebook:
         set_key(dotenv_path='.env', key_to_set='LONG_LIVED_TOKEN', value_to_set=long_lived_token)
         set_key(dotenv_path='.env', key_to_set='EXPIRES_IN', value_to_set=expires_in)
 
-        # Carrega novamente as variáveis de ambiente do arquivo .env
-        load_dotenv()
+        # Update LONG_LIVED_TOKEN and EXPIRES_IN variables in .env file
+        with open('.env', 'r') as f:
+            lines = f.readlines()
+        with open('.env', 'w') as f:
+            for line in lines:
+                if line.startswith('LONG_LIVED_TOKEN'):
+                    f.write('LONG_LIVED_TOKEN=' + long_lived_token + '\n')
+                elif line.startswith('EXPIRES_IN'):
+                    f.write('EXPIRES_IN=' + expires_in + '\n')
+                else:
+                    f.write(line)
         
         # Update LONG_LIVED_TOKEN attribute of object
         self.long_lived_token = long_lived_token
@@ -74,10 +83,7 @@ class Facebook:
             ('input_token', token),
             ('access_token', self.client_id + '|' + self.client_secret),
         )
-
-        response = requests.get(f"{self.graph_domain}{self.version}/debug_token", params=params).json()
-
-        return response
+        return requests.get(f"{self.graph_domain}{self.version}/debug_token", params=params).json()
 
     def is_token_expiring(self, expiration_threshold_seconds=604800):
         """Verifica se o token atual está prestes a expirar.

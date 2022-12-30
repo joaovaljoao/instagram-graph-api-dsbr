@@ -1,0 +1,347 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="br" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>src package &mdash; Instagram-graph-api-DSBR 0.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="src" href="modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Instagram-graph-api-DSBR
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">src</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">src package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-src.business_data">src.business_data module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#src.business_data.create_folder"><code class="docutils literal notranslate"><span class="pre">create_folder()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#src.business_data.get_business_data"><code class="docutils literal notranslate"><span class="pre">get_business_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#src.business_data.loggin_setup"><code class="docutils literal notranslate"><span class="pre">loggin_setup()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#src.business_data.save_to_csv"><code class="docutils literal notranslate"><span class="pre">save_to_csv()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-src.facebook_creds">src.facebook_creds module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#src.facebook_creds.Facebook"><code class="docutils literal notranslate"><span class="pre">Facebook</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#src-image-downloader-module">src.image_downloader module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-src.imager">src.imager module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#src.imager.get_users_data"><code class="docutils literal notranslate"><span class="pre">get_users_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#src.imager.process_directory"><code class="docutils literal notranslate"><span class="pre">process_directory()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#src.imager.resize_image"><code class="docutils literal notranslate"><span class="pre">resize_image()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#src-main-module">src.main module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-src">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Instagram-graph-api-DSBR</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="modules.html">src</a> &raquo;</li>
+        
+      <li>src package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/src.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <section id="src-package">
+<h1>src package<a class="headerlink" href="#src-package" title="Permalink to this heading">¶</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="module-src.business_data">
+<span id="src-business-data-module"></span><h2>src.business_data module<a class="headerlink" href="#module-src.business_data" title="Permalink to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="src.business_data.create_folder">
+<span class="sig-prename descclassname"><span class="pre">src.business_data.</span></span><span class="sig-name descname"><span class="pre">create_folder</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/business_data.html#create_folder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.business_data.create_folder" title="Permalink to this definition">¶</a></dt>
+<dd><p>create folder if it doesn't exist</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.business_data.get_business_data">
+<span class="sig-prename descclassname"><span class="pre">src.business_data.</span></span><span class="sig-name descname"><span class="pre">get_business_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">username</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fields</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="_modules/src/business_data.html#get_business_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.business_data.get_business_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Faz um request ao Graph API para obter os dados de um usuário do
+Instagram em formato de dicionário.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>username</strong> -- String com o nome de usuário do Instagram.</p></li>
+<li><p><strong>fields</strong> -- String com os campos que devem ser retornados pelo request.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.business_data.loggin_setup">
+<span class="sig-prename descclassname"><span class="pre">src.business_data.</span></span><span class="sig-name descname"><span class="pre">loggin_setup</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/business_data.html#loggin_setup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.business_data.loggin_setup" title="Permalink to this definition">¶</a></dt>
+<dd><p>setup logging</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.business_data.save_to_csv">
+<span class="sig-prename descclassname"><span class="pre">src.business_data.</span></span><span class="sig-name descname"><span class="pre">save_to_csv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename_prefix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/src/business_data.html#save_to_csv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.business_data.save_to_csv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Salva os dados de um usuário do Instagram em um arquivo CSV.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> -- Dicionário com os dados de um usuário do Instagram.</p></li>
+<li><p><strong>filename_prefix</strong> -- String com o prefixo do nome do arquivo CSV.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-src.facebook_creds">
+<span id="src-facebook-creds-module"></span><h2>src.facebook_creds module<a class="headerlink" href="#module-src.facebook_creds" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="src.facebook_creds.Facebook">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.facebook_creds.</span></span><span class="sig-name descname"><span class="pre">Facebook</span></span><a class="reference internal" href="_modules/src/facebook_creds.html#Facebook"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.facebook_creds.Facebook" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="src.facebook_creds.Facebook.debug_token">
+<span class="sig-name descname"><span class="pre">debug_token</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">token</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/facebook_creds.html#Facebook.debug_token"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.facebook_creds.Facebook.debug_token" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.facebook_creds.Facebook.is_token_expiring">
+<span class="sig-name descname"><span class="pre">is_token_expiring</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expiration_threshold_seconds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">604800</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/facebook_creds.html#Facebook.is_token_expiring"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.facebook_creds.Facebook.is_token_expiring" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.facebook_creds.Facebook.refresh_long_lived_token">
+<span class="sig-name descname"><span class="pre">refresh_long_lived_token</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/facebook_creds.html#Facebook.refresh_long_lived_token"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.facebook_creds.Facebook.refresh_long_lived_token" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="src-image-downloader-module">
+<h2>src.image_downloader module<a class="headerlink" href="#src-image-downloader-module" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="module-src.imager">
+<span id="src-imager-module"></span><h2>src.imager module<a class="headerlink" href="#module-src.imager" title="Permalink to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="src.imager.get_users_data">
+<span class="sig-prename descclassname"><span class="pre">src.imager.</span></span><span class="sig-name descname"><span class="pre">get_users_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">csv_file_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="reference internal" href="_modules/src/imager.html#get_users_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.imager.get_users_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extrai os dados de media do usuário de um arquivo CSV e retorna uma lista de IDs.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.imager.process_directory">
+<span class="sig-prename descclassname"><span class="pre">src.imager.</span></span><span class="sig-name descname"><span class="pre">process_directory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">directory_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/src/imager.html#process_directory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.imager.process_directory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Itera sobre todos os arquivos JPEG em um diretório e redimensiona as imagens
+caso ela seja de um id da lista de mídias.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.imager.resize_image">
+<span class="sig-prename descclassname"><span class="pre">src.imager.</span></span><span class="sig-name descname"><span class="pre">resize_image</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/src/imager.html#resize_image"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.imager.resize_image" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Altera o tamanho de uma imagem dado o caminho para a mesma.</dt><dd><ul class="simple">
+<li><p>Imagens maiores que 1920x1080 são redimensionadas para 1920x1080.</p></li>
+<li><p>Imagens menores que 640x480 são redimensionadas para 640x480.</p></li>
+</ul>
+</dd>
+</dl>
+<p>A nova imagem é salva no lugar da anterior (mesmo caminho e nome).</p>
+</dd></dl>
+
+</section>
+<section id="src-main-module">
+<h2>src.main module<a class="headerlink" href="#src-main-module" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="module-src">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-src" title="Permalink to this heading">¶</a></h2>
+</section>
+</section>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="modules.html" class="btn btn-neutral float-left" title="src" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2022, João Carlos, Marcel, Gustavo.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

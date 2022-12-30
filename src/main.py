@@ -1,16 +1,15 @@
 import sys, os
 import argparse
+import configparser
 import pandas as pd
-from business_data import BusinessData
+import business_data
 from image_downloader import download_media
 from imager import process_directory, get_users_data
 from facebook_creds import Facebook
 
-# Specify the fields to retrieve
-FIELDS = "{username,website,name,ig_id,id,profile_picture_url,\
-        biography,follows_count,followers_count,media_count,\
-        media{media_url,comments_count, like_count,caption,media_type,permalink,timestamp,username}}"
-
+config = configparser.ConfigParser()
+config.read('config.ini')
+FIELDS = config['INSTAGRAM_API']['FIELDS']
 
 def run(file_name: str) -> None:
     '''
@@ -24,7 +23,8 @@ def run(file_name: str) -> None:
     com nomes de acordo com o arquivo de entrada. TODO: Detalhar como é salvo 
     (local, nomes e etc).
     '''
-
+    business_data.create_folder()
+    business_data.loggin_setup()
     # Pega o nome do arquivo e carrega os dados em uma lista.
     filename_prefix=file_name.split('.')[0]
     usernames = pd.read_csv('usernames/' + file_name, sep=';')['username'].tolist()
@@ -36,11 +36,6 @@ def run(file_name: str) -> None:
     if fb.is_token_expiring(expiration_threshold_seconds=604800):  # 7 days in seconds
         fb.refresh_long_lived_token()
 
-    # Create the BusinessData instance
-    business_data = BusinessData()
-
-    # TODO: Apagar apenas depois que o downlaod via API tenha sucesso. Mover para uma 
-    #       pasta temporária antes.
     if os.path.exists('pub/'+filename_prefix+'_media_data.csv') and os.path.exists('pub/'+filename_prefix+'_user_data.csv'):
         os.unlink('pub/'+filename_prefix+'_media_data.csv')
         os.unlink('pub/'+filename_prefix+'_user_data.csv')
@@ -54,7 +49,7 @@ def run(file_name: str) -> None:
         data = response['business_discovery']['media']['data']
         # Download the media
         for media in data:
-            download_media(media, 'pub/images', 'pub/videos')
+            download_media(media)
         user_data = get_users_data(f'pub/{filename_prefix}_media_data.csv')
         process_directory('pub/images', user_data)
 

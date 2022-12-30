@@ -1,37 +1,42 @@
+import os
 import requests
 import logging
 import pickle
-import os
+import configparser
 from moviepy.editor import VideoFileClip
 
-def download_media(media: dict, image_folder: str, video_folder: str) -> None:
+config = configparser.ConfigParser()
+config.read('config.ini')
+image_folder = config['STRUCTURE']['IMAGE_FOLDER']
+video_folder = config['STRUCTURE']['VIDEO_FOLDER']
+
+def download_media(media: dict) -> None:
     """
     Baixa a mídia (imagem ou vídeo) especificada e salva na pasta de destino.
     Se for um vídeo, também gera e salva uma thumbnail na pasta de imagens.
     Args:
         media: Dicionário com os dados da mídia a ser baixada.
-        image_folder: Pasta de destino para imagens.
-        video_folder: Pasta de destino para vídeos.
     """
     # Verifica se o mídia é uma imagem ou um vídeo
     try:
-        if media['media_type'] in ['IMAGE', 'CAROUSEL_ALBUM']:
+        if media.get('media_type', None) in ['IMAGE', 'CAROUSEL_ALBUM']:
             folder = image_folder
             file_extension = 'jpg'
-        elif media['media_type'] == 'VIDEO':
+        elif media.get('media_type', None) == 'VIDEO':
             folder = video_folder
             file_extension = 'mp4'
         else:
+            logging.debug(f'Erro: Tipo de midia desconhecido - media: {media.get("media_type", "sem media_type em media")}')
             return
 
         # Verifica se o arquivo já existe na pasta de destino
-        file_path = f'{folder}/{media["id"]}.{file_extension}'
+        file_path = f'{folder}/{media.get("id", "0000")}.{file_extension}'
         if os.path.exists(file_path):
-            logging.debug(f'A mídia {media["id"]}.{file_extension} já existe, download não necessário')
+            logging.debug(f'A mídia {media.get("id", "000")}.{file_extension} já existe, download não necessário')
             return
 
         # Faz o download da mídia e salva na pasta de destino
-        response = requests.get(media['media_url'])
+        response = requests.get(media.get('media_url', None))
         open(file_path, 'wb').write(response.content)
 
         # Se for um vídeo, gera e salva o thumbnail na pasta de imagens
