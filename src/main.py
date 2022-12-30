@@ -1,10 +1,10 @@
-import sys, os
+import  os
 import argparse
 import configparser
 import pandas as pd
 import business_data
 from image_downloader import download_media
-from imager import process_directory, get_users_data
+from imager import process_directory
 from facebook_creds import Facebook
 
 config = configparser.ConfigParser()
@@ -50,8 +50,9 @@ def run(file_name: str) -> None:
         # Download the media
         for media in data:
             download_media(media)
-        user_data = get_users_data(f'pub/{filename_prefix}_media_data.csv')
-        process_directory('pub/images', user_data)
+        # get all jpg files in the directory and get id
+        user_data = [x.split('.')[0] for x in os.listdir('pub/images') if x.endswith('.jpg')]
+        process_directory('pub/images', user_data, width=640, height=480) # Agora você pode determinar as dimensões da imagem no main.py.
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
