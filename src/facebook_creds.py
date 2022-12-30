@@ -42,9 +42,6 @@ class Facebook:
                     f.write('EXPIRES_IN=' + expires_in + '\n')
                 else:
                     f.write(line)
-
-        # Load updated environment variables from .env file
-        load_dotenv()
         
         # Update LONG_LIVED_TOKEN attribute of object
         self.long_lived_token = long_lived_token
@@ -56,10 +53,7 @@ class Facebook:
             ('input_token', token),
             ('access_token', self.client_id + '|' + self.client_secret),
         )
-
-        response = requests.get(f"{self.graph_domain}{self.version}/debug_token", params=params).json()
-
-        return response
+        return requests.get(f"{self.graph_domain}{self.version}/debug_token", params=params).json()
 
     def is_token_expiring(self, expiration_threshold_seconds=604800):
         # Check if LONG_LIVED_TOKEN is set in environment
