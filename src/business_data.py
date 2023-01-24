@@ -56,13 +56,19 @@ def save_to_csv(data: dict, filename_prefix: str) -> None:
         filename_prefix: String com o prefixo do nome do arquivo CSV.
     '''
     # Create a list of dictionaries with the desired keys
-    desired_keys = ['username', 'website', 'name', 'ig_id', 'id', 'profile_picture_url', 'biography', 'follows_count', 'followers_count', 'media_count']
-    user_data_list = [{k: data['business_discovery'].get(k, None) for k in desired_keys}]
+    user_desired_keys = ['username', 'website', 'name', 'ig_id', 'id', 'profile_picture_url', 'biography', 'follows_count', 'followers_count', 'media_count']
+    user_data_list = [{k: data['business_discovery'].get(k, None) for k in user_desired_keys}]
+
+
+    # Create a list of dictionaries with the desired keys for media
+    media_desired_keys = ['id', 'media_url','comments_count','like_count','caption','media_type','permalink','timestamp','username']
 
     # Extract the media data
+
     media_data = data['business_discovery']['media']['data']
     media_keys = ['id','media_url','comments_count','like_count','caption','media_type','permalink','timestamp','username']
     desired_media_data = [{k: item.get(k, None) for k in media_keys} for item in media_data]
+
     # Create the pandas DataFrames
     df_user = pd.DataFrame(user_data_list)
     df_media = pd.DataFrame(desired_media_data)
@@ -75,8 +81,6 @@ def save_to_csv(data: dict, filename_prefix: str) -> None:
                     index=False, sep=';',
                     encoding='utf-8-sig', mode='a',
                     header=not os.path.exists('pub/'+filename_prefix+'_media_data.csv'))
-
-
 
 def loggin_setup():
     '''setup logging'''

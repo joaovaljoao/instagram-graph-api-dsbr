@@ -7,6 +7,7 @@ python3 src/main.py -f ifes.csv
 cp -f usernames/ifes.csv pub/usuarios.csv
 cp -f pub/ifes_media_data.csv pub/instagram_media_data.csv
 cp -f pub/ifes_user_data.csv pub/instagram_user_data.csv
+rm -rf pub/videos/*
 ./convert_clean.sh
 rm -f ids.csv
 #AWS configuration
