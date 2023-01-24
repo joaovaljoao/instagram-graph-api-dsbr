@@ -44,6 +44,8 @@ def download_media(media: dict) -> None:
             clip = VideoFileClip(file_path)
             thumbnail_path = f'{image_folder}/{media["id"]}.jpg'
             clip.save_frame(thumbnail_path, t=0.5)
+            # excluir o vídeo
+            os.remove(file_path)
 
         logging.debug(f'Baixou {media["id"]}.{file_extension}')
         with open(f'logging/pickle/{media["id"]}_image_download.pickle', 'wb') as handle:

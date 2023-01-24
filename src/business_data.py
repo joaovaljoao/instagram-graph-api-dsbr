@@ -55,18 +55,21 @@ def save_to_csv(data: dict, filename_prefix: str) -> None:
         data: Dicionário com os dados de um usuário do Instagram.
         filename_prefix: String com o prefixo do nome do arquivo CSV.
     '''
-    # Extract the data for the user and the media
-    user_data = {k: v for k, v in data['business_discovery'].items() if k != 'media'}
-    media_data = [{**{'id': data['business_discovery']['id']},
-                   **item} for item in data['business_discovery']['media']['data']]
+    # Create a list of dictionaries with the desired keys
+    user_desired_keys = ['username', 'website', 'name', 'ig_id', 'id', 'profile_picture_url', 'biography', 'follows_count', 'followers_count', 'media_count']
+    user_data_list = [{k: data['business_discovery'].get(k, None) for k in user_desired_keys}]
 
+
+    # Create a list of dictionaries with the desired keys for media
+    media_desired_keys = ['id', 'media_url','comments_count','like_count','caption','media_type','permalink','timestamp','username']
+
+    # Extract the media data
+    media_data = [{k: item.get(k, None) for k in media_desired_keys}
+                        for item in data['business_discovery']['media']['data']]
+    
     # Create the pandas DataFrames
-    df_user = pd.DataFrame(user_data, index=[0])
+    df_user = pd.DataFrame(user_data_list)
     df_media = pd.DataFrame(media_data)
-
-    # # Create the images folder if it doesn't exist
-    # create_folder()
-
     # Save the DataFrames to CSV files
     df_user.to_csv('pub/'+filename_prefix+'_user_data.csv',
                    index=False, sep=';', encoding='utf-8-sig',
@@ -76,7 +79,6 @@ def save_to_csv(data: dict, filename_prefix: str) -> None:
                     index=False, sep=';',
                     encoding='utf-8-sig', mode='a',
                     header=not os.path.exists('pub/'+filename_prefix+'_media_data.csv'))
-
 
 def loggin_setup():
     '''setup logging'''
