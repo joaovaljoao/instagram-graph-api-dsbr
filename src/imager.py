@@ -44,9 +44,10 @@ def process_directory(directory_path: str, user_data: List[str], width: int, hei
         if user_id in user_data:
             # Checa se a imagem já foi redimensionada
             if user_id in resized_images:
-                logging.debug(f'{filename} ignorado porque já foi redimensionado')
+                #logging.debug(f'{filename} ignorado porque já foi redimensionado')
                 continue
             # Redimensiona a imagem e adiciona o ID à lista de imagens redimensionadas
+            logging.debug(f'{filename} está sendo redimensionado')
             image_path = os.path.join(directory_path, filename)
             resize_image(image_path, width, height)
             resized_images.add(user_id)
