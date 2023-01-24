@@ -60,12 +60,12 @@ def save_to_csv(data: dict, filename_prefix: str) -> None:
     user_data_list = [{k: data['business_discovery'].get(k, None) for k in desired_keys}]
 
     # Extract the media data
-    media_data = [{**{'id': data['business_discovery']['id']},
-                   **item} for item in data['business_discovery']['media']['data']]
-
+    media_data = data['business_discovery']['media']['data']
+    media_keys = ['id','media_url','comments_count','like_count','caption','media_type','permalink','timestamp','username']
+    desired_media_data = [{k: item.get(k, None) for k in media_keys} for item in media_data]
     # Create the pandas DataFrames
     df_user = pd.DataFrame(user_data_list)
-    df_media = pd.DataFrame(media_data)
+    df_media = pd.DataFrame(desired_media_data)
     # Save the DataFrames to CSV files
     df_user.to_csv('pub/'+filename_prefix+'_user_data.csv',
                    index=False, sep=';', encoding='utf-8-sig',
