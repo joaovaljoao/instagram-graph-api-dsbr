@@ -24,7 +24,7 @@ def get_business_data(username: str, fields: str) -> dict:
         fields: String com os campos que devem ser retornados pelo request.
     '''
     params = {
-        'fields': f'business_discovery.username({username})' + fields,
+        'fields': f'business_discovery.username({username})' + '{' + fields + '}}',
         'access_token': input_token,
     }
     timestamp = time.time()
