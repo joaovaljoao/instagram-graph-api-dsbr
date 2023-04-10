@@ -1,7 +1,6 @@
 import os
 import requests
 import logging
-import pickle
 import configparser
 from moviepy.editor import VideoFileClip
 
@@ -48,7 +47,5 @@ def download_media(media: dict) -> None:
             os.remove(file_path)
 
         logging.debug(f'Baixou {media["id"]}.{file_extension}')
-        with open(f'logging/pickle/{media["id"]}_image_download.pickle', 'wb') as handle:
-            pickle.dump(response, handle, protocol=pickle.HIGHEST_PROTOCOL)
     except Exception as e:
         logging.debug(f'Erro: {e}')
